@@ -53,7 +53,7 @@ if (isset($_POST['incrire_btn'])) {
     $mdp = $_POST['psw'];
     $mdp_rep = $_POST['psw_repeat'];
 
-    $query_check_email = "SELECT email FROM infos WHERE email = ?";
+    $query_check_email = "SELECT email FROM infos WHERE email = ? LIMIT 1";
     $stmt = $con->prepare($query_check_email);
     $stmt->bind_param('s', $email);
     $stmt->execute();
@@ -90,6 +90,34 @@ if (isset($_POST['incrire_btn'])) {
         }
     }
 
+}
+
+if (isset($_POST['connexion_btn'])) {
+$email_login = $_POST['email'];
+$password_login = $_POST['psw'];
+$query_check_email = "SELECT * FROM infos WHERE email = ? AND mdp = ? LIMIT 1";
+$stmt_query_check_email = $con->prepare($query_check_email);
+$stmt_query_check_email->bind_param('ss', $email_login, $password_login);
+$stmt_query_check_email->execute();
+$stmt_query_check_email_result = $stmt_query_check_email->get_result();
+if ($stmt_query_check_email_result->num_rows > 0) {
+    $login_row = $stmt_query_check_email_result->fetch_assoc();
+    if ($login_row['verifier_status'] == 1) {
+        $_SESSION['status'] = "Connexion réussie !✅";
+        header('location: dashboard.php');
+        exit(0);
+    }
+    else {
+        $_SESSION['status'] = 'Veuillez valider votre adresse e-mail avant de vous connecter !';
+        header('location: login.php');
+        exit(0);
+     }
+}
+else {
+    $_SESSION['status'] = 'Adresse e-mail ou mot de passe incorrect, veuillez réessayer !';
+    header('location: login.php');
+    exit(0);
+}
 }
 
 ?>
