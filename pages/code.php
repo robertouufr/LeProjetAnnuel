@@ -1,6 +1,7 @@
 <?php
-require '../includes/connexion.php';
 session_start();
+require '../includes/connexion.php';
+
 
 require '../vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
@@ -68,10 +69,11 @@ if (isset($_POST['incrire_btn'])) {
         if ($mdp == $mdp_rep) {
             $infos_insert = 'INSERT INTO infos(nom,email,phone,mdp,token_verification) VALUES(?,?,?,?,?)';
             $stmt_insert = $con->prepare($infos_insert);
-            $stmt_insert->bind_param('sssss', $nom, $email, $phone, $mdp, $verify_token);
+            $mdp_hash = password_hash($mdp, PASSWORD_DEFAULT);
+            $stmt_insert->bind_param('sssss', $nom, $email, $phone, $mdp_hash, $verify_token);
             $stmt_insert->execute();
 
-            if ($stmt_insert) {
+            if ($stmt_insert->affected_rows > 0) {
                 sendemail_verify($nom, $email, $verify_token);
                 $_SESSION['status'] = 'Inscription réussie ! Veuillez vérifier votre adresse e-mail.';
                 header('location: register.php');
@@ -93,31 +95,100 @@ if (isset($_POST['incrire_btn'])) {
 }
 
 if (isset($_POST['connexion_btn'])) {
-$email_login = $_POST['email'];
-$password_login = $_POST['psw'];
-$query_check_email = "SELECT * FROM infos WHERE email = ? AND mdp = ? LIMIT 1";
-$stmt_query_check_email = $con->prepare($query_check_email);
-$stmt_query_check_email->bind_param('ss', $email_login, $password_login);
-$stmt_query_check_email->execute();
-$stmt_query_check_email_result = $stmt_query_check_email->get_result();
-if ($stmt_query_check_email_result->num_rows > 0) {
-    $login_row = $stmt_query_check_email_result->fetch_assoc();
-    if ($login_row['verifier_status'] == 1) {
-        $_SESSION['status'] = "Connexion réussie !✅";
-        header('location: dashboard.php');
-        exit(0);
-    }
-    else {
-        $_SESSION['status'] = 'Veuillez valider votre adresse e-mail avant de vous connecter !';
+    $email_login = $_POST['email'];
+    $password_login = $_POST['psw'];
+    $query_check_email = "SELECT * FROM infos WHERE email = ? LIMIT 1";
+    $stmt_query_check_email = $con->prepare($query_check_email);
+    $stmt_query_check_email->bind_param('s', $email_login);
+    $stmt_query_check_email->execute();
+    $stmt_query_check_email_result = $stmt_query_check_email->get_result();
+    if ($stmt_query_check_email_result->num_rows > 0) {
+        $login_row_infos = $stmt_query_check_email_result->fetch_assoc();
+        if (password_verify($password_login, $login_row_infos['mdp'])) {
+            if ($login_row_infos['verifier_status'] == 1) {
+                $_SESSION['id'] = $login_row_infos['id'];
+                $_SESSION['nom'] = $login_row_infos['nom'];
+                $_SESSION['status'] = "Connexion réussie !✅";
+                header('location: dashboard.php');
+                exit(0);
+            } else {
+                $_SESSION['status'] = 'Veuillez valider votre adresse e-mail avant de vous connecter !';
+                header('location: login.php');
+                exit(0);
+            }
+
+        } else {
+            $_SESSION['status'] = 'Adresse e-mail ou mot de passe incorrect, veuillez réessayer !';
+            header('location: login.php');
+            exit(0);
+        }
+
+    } else {
+
+        $_SESSION['status'] = 'Adresse e-mail ou mot de passe incorrect !';
         header('location: login.php');
         exit(0);
-     }
+    }
 }
-else {
-    $_SESSION['status'] = 'Adresse e-mail ou mot de passe incorrect, veuillez réessayer !';
-    header('location: login.php');
-    exit(0);
-}
-}
+
+    if (isset($_POST['revenu'])) {
+        $id_user = $_SESSION['id'];
+        $revenu = $_POST['revenu'];
+        $query_revenu = "UPDATE infos SET revenus_mensuels = ? WHERE id = ?";
+        $stmt_revenu = $con->prepare($query_revenu);
+        $stmt_revenu->bind_param('di', $revenu, $id_user);
+
+        if ($stmt_revenu->execute()) {
+            echo json_encode(['status' => 'success',
+            'revnueValue' => $revenu]);
+        }
+        else {
+            echo json_encode(['status' => 'error']);
+
+        }
+        exit();
+    }
+
+//    --------------------------------------------------------------------------------------------------
+
+    if (isset($_POST['submit_depense'])) {
+        $id_user_depense = $_SESSION['id'];
+        $categorie_id = $_POST['categorie_id'];
+        $date = $_POST['date'];
+        $description = $_POST['description'];
+        $montant = $_POST['Montant'];
+
+        $stmt_depense = 'INSERT INTO depenses(user_id, categorie_id, date_depense, description, montant) VALUES(?,?,?,?,?)';
+        $stmt_insert_depense = $con->prepare($stmt_depense);
+        $stmt_insert_depense->bind_param('iisss', $id_user_depense, $categorie_id, $date, $description, $montant);
+        $stmt_insert_depense->execute();
+        if ($stmt_insert_depense->affected_rows > 0) {
+            header('location: dashboard.php?status=success');
+        }
+        else {
+            header('location: dashboard.php?status=error');
+        }
+    }
+
+
+
+    if(isset($_POST["catID"])) {
+        $catID = $_POST["catID"];
+        $montantLimit = $_POST["montantLimit"];
+        $moisLimit = $_POST["moisLimite"];
+
+        $queryLimit = "INSERT INTO budget_limites(user_id,categorie_id,montant_limite,mois) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE montant_limite = ?, mois = ?";
+        $stmt_limit = $con->prepare($queryLimit);
+        $stmt_limit->bind_param('iididi', $_SESSION['id'], $catID, $montantLimit, $moisLimit, $montantLimit, $moisLimit);
+        $stmt_limit->execute();
+        if ($stmt_limit->affected_rows > 0) {
+            echo json_encode(['status' => 'success', 'newlimit' => $montantLimit]);
+        }
+        else {
+            echo json_encode(['status' => 'error', "message" => $con->error]);
+        }
+        exit;
+    }
+
 
 ?>

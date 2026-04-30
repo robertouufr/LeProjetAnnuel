@@ -1,4 +1,3 @@
-
 <?php
 $page = 'Connexion';
 require ('../includes/connexion.php');
@@ -6,32 +5,43 @@ require ('../includes/header.php');
 session_start();
 ?>
 
-<form method="post" action="code.php">
-    <?php if (isset($_SESSION['status'])) { ?>
-        <p class="warning"><?php echo $_SESSION['status']; unset($_SESSION['status']); ?></p>
-    <?php } ?>
+    <div class="auth-page">
+        <div class="auth-container">
 
-    <hr>
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Entrez Email" name="email" id="email" required>
+            <h1>Connexion</h1>
+            <p class="auth-subtitle">Accédez à votre espace personnel</p>
 
-    <label for="psw"><b>Mot de pass</b></label>
-    <input type="password" placeholder="Entrez Mot de pass" name="psw" id="psw" required>
-    <a href="passforget.php">Mot de passe oublié ?</a>
+            <?php if (isset($_SESSION['status'])) { ?>
+                <p class="warning"><?php echo $_SESSION['status']; unset($_SESSION['status']); ?></p>
+            <?php } ?>
 
-    <hr>
+            <form method="post" action="code.php">
 
-    <button type="submit" name="connexion_btn" class="registerbtn">Connecter</button>
-    <div class="container_signin">
-        <h2>Vous n'avez pas encore de compte ?</h2>
-        <a href="register.php">Inscrivez-vous ici</a>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" placeholder="Entrez votre email" name="email" id="email" required>
+                </div>
 
-</form>
+                <div class="form-group">
+                    <label for="psw">Mot de passe</label>
+                    <input type="password" placeholder="Entrez votre mot de passe" name="psw" id="psw" required>
+                </div>
+
+                <a href="passforget.php" class="forgot-link">Mot de passe oublié ?</a>
+
+                <button type="submit" name="connexion_btn" class="registerbtn">Se connecter</button>
+
+            </form>
+
+            <hr class="auth-divider">
+
+            <div class="container_signin">
+                <p>Vous n'avez pas encore de compte ? <a href="register.php">Inscrivez-vous ici</a></p>
+            </div>
+
+        </div>
+    </div>
 
 <?php
 require ('../includes/footer.php');
 ?>
-
-
-
-
