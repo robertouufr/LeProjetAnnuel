@@ -61,11 +61,4 @@
 3. **Priorité 3 (Accessibilité) :** Corriger la **sémantique des titres** (H1 unique par page) et ajouter des balises `<section>`.
 4. **Priorité 4 (Nettoyage) :** Supprimer tous les `console.log` de debug et masquer les erreurs PHP en production.
 
----
 
-## 🎤 Restitution Orale (Résumé 5 min)
-*   **Points forts :** Sécurité robuste (Requêtes préparées, Hashage), modularité (Header/Footer/Emailing via PHPMailer).
-*   **Faiblesses :** Répétition de code CSS, manque de transactions atomiques en base de données.
-*   **Répartition :** 
-    *   *Membre A :* Refonte sémantique HTML & Variables CSS.
-    *   *Membre B :* Sécurisation PHP (Transactions & Try/Catch).
