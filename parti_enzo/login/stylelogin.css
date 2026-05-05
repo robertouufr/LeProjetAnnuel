@@ -1,36 +1,62 @@
+#toggle-theme {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background-color: #5b4efa;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+
+
+
 
 
 body {
     font-family: 'Ubuntu', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.container {
-    display: flex;
-    width: 80%;
-    align-items: stretch; /* ← les deux div prennent la même hauteur */
-
-}
-
-.droite {
-    width: 52%;
     background: linear-gradient(to bottom, #ffffff, #eef0ff);
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 0;
+}
+
+.page_connexion {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 50px;
+    flex-direction: column;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 15px 0 8px;
+}
+
+.header p {
+    color: #888;
+    margin: 0;
+    text-align: center;
 }
 
 .formulaire-connexion {
     background: white;
-    border-radius: 30px;
+    border-radius: 10px;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.35);
     padding: 40px;
     width: 100%;
+    max-width: 400px;
 }
-
 .formulaire-connexion:hover {
     transform: scale(1.01);
     transition: transform 0.2s ease;
@@ -39,15 +65,8 @@ body {
 h2 {
     color: darkslategray;
     margin-top: 0;
-    margin-bottom: 6px;
-    font-weight: bold;
-}
-
-p {
-    color: #888;
     margin-bottom: 20px;
-    text-align: left;
-    line-height: 1.2;
+    font-weight: bold;
 }
 
 label {
@@ -60,37 +79,28 @@ label {
 input {
     display: block;
     width: 100%;
-    padding: 15px;
+    box-sizing: border-box; /* très important */
+    padding: 15px 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 16px;
     background: #fafafa;
 }
 
-
-
 .formulaire {
     margin-bottom: 15px;
 }
 
-.mdp {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-}
-
-.mdp .formulaire {
-    flex: 1;
-}
-
-.mdp input {
-    width: 100%;
+.mot-de-passe-oublie {
+    display: block;
+    text-align: right;
+    margin-top: 10px;
 }
 
 button {
     display: block;
     width: 100%;
-    margin-top: 24px;
+    margin-top: 25px;
     padding: 15px;
     border-radius: 8px;
     border: none;
@@ -98,14 +108,14 @@ button {
     background-color: mediumblue;
     color: white;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 255, 0.4)
+
 }
 
 button:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
     transition: transform 0.2s ease;
 }
-
 .inscription {
     text-align: center;
     margin-top: 20px;
@@ -115,4 +125,18 @@ button:hover {
 a {
     text-decoration: none;
     color: mediumblue;
+}
+
+.logo img {
+    width: 70px;
+    height: 70px;
+    border-radius:18px;
+}
+
+h1{
+    color: black;
+}
+
+span{
+
 }
