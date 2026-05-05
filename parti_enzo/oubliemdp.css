@@ -1,0 +1,128 @@
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+    background: linear-gradient(to bottom, #ffffff, #eef0ff);
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 0;
+}
+
+.page_connexion {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 15px 0 8px;
+}
+
+.header p {
+    color: #888;
+    margin: 0;
+    text-align: center;
+}
+
+.formulaire-connexion {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.35);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.formulaire-connexion:hover {
+    transform: scale(1.01);
+    transition: transform 0.2s ease;
+}
+h2 {
+    color: darkslategray;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: darkslategray;
+    margin-top:20px;
+    font-weight: bold;
+}
+
+input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box; /* très important */
+    padding: 15px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #fafafa;
+}
+
+.formulaire {
+    margin-bottom: 15px;
+}
+
+
+
+button {
+    display: block;
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    background-color: mediumblue;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 255, 0.4)
+}
+
+.inscription {
+    text-align: center;
+    margin-top: 20px;
+    color: #888;
+}
+
+a {
+    text-decoration: none;
+    color: mediumblue;
+}
+
+.logo img {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+}
+
+h1{
+    color: black;
+}
+
+p{
+    color: #888;
+    margin: 0;
+    text-align: left;
+    line-height: 1.5;
+}
+
+.retour{
+    text-decoration: none;
+    color: gray;
+}
+
+button:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
