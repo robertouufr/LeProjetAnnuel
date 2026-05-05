@@ -1,6 +1,6 @@
 # 📑 Audit Qualité du Code - Projet : Mon Pti Budjet
 **Date de l'audit :** 05 Mai 2026
-**Groupe :** [SEYF - ENZO - RPBERTO]
+**Groupe :** [SEYF - ENZO - RPBERTO ]
 
 ---
 
