@@ -1,37 +1,63 @@
-
 <?php
+// On définit le nom de la page pour le header
 $page = 'Connexion';
+
+// Connexion à la base de données et inclusion du header
 require ('../includes/connexion.php');
 require ('../includes/header.php');
+
+// On démarre la session pour gérer les messages d'erreur et la connexion
 session_start();
 ?>
 
-<form method="post" action="code.php">
-    <?php if (isset($_SESSION['status'])) { ?>
-        <p class="warning"><?php echo $_SESSION['status']; unset($_SESSION['status']); ?></p>
-    <?php } ?>
+    <section class="page_connexion">
 
-    <hr>
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Entrez Email" name="email" id="email" required>
+        <div class="header">
+            <div class="logo">
+                <img src="../assets/images/portefeuille%20(1).png" alt="logo">
+            </div>
+            <h1>Mon Pti Budget</h1>
+            <p>Gérer vos finances simplement</p>
+        </div>
 
-    <label for="psw"><b>Mot de pass</b></label>
-    <input type="password" placeholder="Entrez Mot de pass" name="psw" id="psw" required>
-    <a href="passforget.php">Mot de passe oublié ?</a>
+        <div class="formulaire-connexion">
+            <h2>Connexion</h2>
 
-    <hr>
+            <?php if (isset($_SESSION['status'])) { ?>
+                <p class="warning">
+                    <?php
+                    echo $_SESSION['status'];
+                    unset($_SESSION['status']); // On efface le message après l'affichage
+                    ?>
+                </p>
+            <?php } ?>
 
-    <button type="submit" name="connexion_btn" class="registerbtn">Connecter</button>
-    <div class="container_signin">
-        <h2>Vous n'avez pas encore de compte ?</h2>
-        <a href="register.php">Inscrivez-vous ici</a>
+            <form method="post" action="code.php">
 
-</form>
+                <div class="formulaire">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" placeholder=" ✉ vousexemple@gmail.com" required>
+                </div>
+
+                <div class="formulaire">
+                    <label for="motdepasse">Mot de passe</label>
+                    <input type="password" id="motdepasse" name="psw" placeholder=" ⌦ ••••••••••" required>
+                </div>
+
+                <a href="passforget.php" class="forgot-link">Mot de passe oublié ?</a>
+
+                <button type="submit" name="connexion_btn">Se connecter</button>
+
+                <p class="inscription">
+                    Pas encore de compte ? <a href="register.php">Créer un compte</a>
+                </p>
+
+            </form>
+        </div>
+
+    </section>
 
 <?php
+// Inclusion du footer pour fermer les balises correctement
 require ('../includes/footer.php');
 ?>
-
-
-
-
